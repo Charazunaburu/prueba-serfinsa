@@ -1,0 +1,128 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Productos</h1>
+  </div>
+
+  @if (loading()) {
+    <p class="status-msg">Cargando productos...</p>
+  }
+
+  @if (errorMsg()) {
+    <p class="error-banner">{{ errorMsg() }}</p>
+  }
+
+  @if (!loading() && !errorMsg() && productos().length === 0) {
+    <p class="status-msg">No hay productos registrados.</p>
+  }
+
+  @if (!loading() && productos().length > 0) {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Tipo</th>
+            @if (isAdmin) {
+              <th>Acciones</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of productos(); track p.id) {
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.descripcion }}</td>
+              <td>{{ p.precio | currency:'USD' }}</td>
+              <td>{{ p.stock }}</td>
+              <td>{{ p.tipoProducto }}</td>
+              @if (isAdmin) {
+                <td class="actions-cell">
+                  <button class="btn-edit" (click)="openEdit(p)">Editar</button>
+                  <button class="btn-delete" (click)="askDelete(p.id!)">Eliminar</button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (confirmDeleteId() !== null) {
+  <div class="modal-overlay" (click)="cancelDelete()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h3>¿Eliminar producto?</h3>
+      <p>Esta acción no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelDelete()">Cancelar</button>
+        <button class="btn-confirm-delete" (click)="confirmDelete()">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal editar producto -->
+@if (editingProduct() !== null) {
+  <div class="modal-overlay" (click)="cancelEdit()">
+    <div class="modal-card modal-edit" (click)="$event.stopPropagation()">
+      <h3>Editar Producto</h3>
+
+      <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="edit-form">
+        <div class="field">
+          <label for="edit-nombre">Nombre</label>
+          <input id="edit-nombre" formControlName="nombre" />
+          @if (editForm.controls.nombre.touched && editForm.controls.nombre.hasError('required')) {
+            <span class="error">Obligatorio.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label for="edit-descripcion">Descripción</label>
+          <textarea id="edit-descripcion" formControlName="descripcion" rows="3"></textarea>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="edit-precio">Precio</label>
+            <input id="edit-precio" type="number" formControlName="precio" step="0.01" />
+            @if (editForm.controls.precio.touched && editForm.controls.precio.hasError('required')) {
+              <span class="error">Obligatorio.</span>
+            }
+          </div>
+          <div class="field">
+            <label for="edit-stock">Stock</label>
+            <input id="edit-stock" type="number" formControlName="stock" />
+            @if (editForm.controls.stock.touched && editForm.controls.stock.hasError('required')) {
+              <span class="error">Obligatorio.</span>
+            }
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="edit-tipo">Tipo de Producto</label>
+          <input id="edit-tipo" formControlName="tipoProducto" />
+          @if (editForm.controls.tipoProducto.touched && editForm.controls.tipoProducto.hasError('required')) {
+            <span class="error">Obligatorio.</span>
+          }
+        </div>
+
+        @if (editError()) {
+          <p class="error-banner">{{ editError() }}</p>
+        }
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancelar</button>
+          <button type="submit" class="btn-save" [disabled]="saving()">
+            @if (saving()) { Guardando... } @else { Guardar cambios }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

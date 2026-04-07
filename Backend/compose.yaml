@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: db-serfinsa
+    environment:
+      MYSQL_DATABASE: prueba_backend
+      MYSQL_USER: user_backend
+      MYSQL_PASSWORD: rSCXDigHsyVCxF94
+      MYSQL_ROOT_PASSWORD: 2X-56AGUgiTt
+    ports:
+      - "3308:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: serfinsa-app
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/prueba_backend?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: user_backend
+      SPRING_DATASOURCE_PASSWORD: rSCXDigHsyVCxF94
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+
+
+volumes:
+  db-data:

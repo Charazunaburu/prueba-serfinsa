@@ -1,0 +1,63 @@
+<div class="page-container">
+  <h1>Crear Producto</h1>
+  <p class="subtitle">Completa los campos para registrar un nuevo producto.</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-form">
+    <!-- Nombre -->
+    <div class="field">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre" placeholder="Nombre del producto" />
+      @if (form.controls.nombre.touched && form.controls.nombre.hasError('required')) {
+        <span class="error">El nombre es obligatorio.</span>
+      }
+    </div>
+
+    <!-- Descripción -->
+    <div class="field">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" formControlName="descripcion" rows="3" placeholder="Descripción del producto"></textarea>
+    </div>
+
+    <!-- Precio & Stock en fila -->
+    <div class="field-row">
+      <div class="field">
+        <label for="precio">Precio</label>
+        <input id="precio" type="number" formControlName="precio" placeholder="0.00" step="0.01" />
+        @if (form.controls.precio.touched && form.controls.precio.hasError('required')) {
+          <span class="error">El precio es obligatorio.</span>
+        }
+        @if (form.controls.precio.touched && form.controls.precio.hasError('min')) {
+          <span class="error">Debe ser ≥ 0.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="stock">Stock</label>
+        <input id="stock" type="number" formControlName="stock" placeholder="0" />
+        @if (form.controls.stock.touched && form.controls.stock.hasError('required')) {
+          <span class="error">El stock es obligatorio.</span>
+        }
+        @if (form.controls.stock.touched && form.controls.stock.hasError('min')) {
+          <span class="error">Debe ser ≥ 0.</span>
+        }
+      </div>
+    </div>
+
+    <!-- Tipo de Producto -->
+    <div class="field">
+      <label for="tipoProducto">Tipo de Producto</label>
+      <input id="tipoProducto" formControlName="tipoProducto" placeholder="Ej: Electrónica, Ropa..." />
+      @if (form.controls.tipoProducto.touched && form.controls.tipoProducto.hasError('required')) {
+        <span class="error">El tipo de producto es obligatorio.</span>
+      }
+    </div>
+
+    @if (errorMsg()) {
+      <p class="error-banner">{{ errorMsg() }}</p>
+    }
+
+    <button type="submit" class="submit-btn" [disabled]="loading() || (form.invalid && form.dirty)">
+      @if (loading()) { Guardando... } @else { Guardar Producto }
+    </button>
+  </form>
+</div>

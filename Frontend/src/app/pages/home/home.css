@@ -1,0 +1,82 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: linear-gradient(135deg, #1e3a5f, #2563eb);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ── Nav menu ── */
+.menu-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.menu-list a {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu-list a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.menu-list a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* — Logout — */
+.logout-item {
+  margin-left: auto;
+}
+
+.logout-btn {
+  padding: 0.45rem 1.1rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+  background: #e74c3c;
+  border-color: #e74c3c;
+  color: #fff;
+}
+
+/* ── Content area ── */
+.content {
+  flex: 1;
+  padding: 2rem;
+  background: #f5f7fa;
+}

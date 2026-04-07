@@ -1,0 +1,8 @@
+<router-outlet></router-outlet>
+
+<!-- Toast global -->
+@if (alertService.alert(); as a) {
+  <div class="toast toast-{{ a.type }}" (click)="alertService.dismiss()">
+    {{ a.message }}
+  </div>
+}
