@@ -5,7 +5,7 @@ Backend
 4- cliente: ClienteSerfinsa, contra: Cliente1234
 
 Frontend
-1- Una vez iniciado el backend, ejectuar npm star en terminal
+1- Una vez iniciado el backend, ejectuar npm i, npm star en terminal
 
 Base de datos
 1- En dado caso se quiera ejecutar de una vez la base DB.sql
